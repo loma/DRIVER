@@ -12,7 +12,20 @@ services:
       - ../admin:/home/node/app
     ports:
       - "4200:4200"
-    entrypoint: ["npm", "start", "-p", "4200"]
+    entrypoint: ["npm", "start"]
+  user:
+    build:
+      context: ./
+      dockerfile: user.dockerfile
+    working_dir: /home/node/app
+    user: "node"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ../user:/home/node/app
+    ports:
+      - "4300:4300"
+    entrypoint: ["npm", "start"]
   backend:
     build:
       context: ./
