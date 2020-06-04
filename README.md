@@ -38,18 +38,20 @@ Start up all servers
 		'OPTIONS': { 'sslmode': 'disable' }
 	}
 
+### Prepare Database
+    cd docker
+    docker-compose exec postgres bash -c "psql postgres postgres"
+    CREATE EXTENSION hstore;
+
 ### Migrations
-Due to some errors when execute `python manage.py migrate`  class **DriverRecord** and **DriverRecordCopy** need to temporary extends from **models.Model** under the data/models.py
-
-    ...
-    class DriverRecord(models.Model):
-    class DriverRecordCopy(models.Model):
-    ...
-
-   Then run the migration to partially initialse the database
 
     cd docker
-    docker-compose exec backend bash -c "python manage.py migrate"
+    docker-compose exec backend bash -c "./manage.py makemigrations driver_advanced_auth data black_spots user_filters; ./manage.py migrate"
+
+### Create a super user
+
+    cd docker
+    docker-compose exec backend bash -c "python manage.py createsuperuser"
 
 ### Insert to Postgres
 
@@ -57,11 +59,6 @@ Due to some errors when execute `python manage.py migrate`  class **DriverRecord
     docker-compose exec postgres bash -c "psql postgres postgres"
     insert into auth_group (name) values ('Superadmin');
     insert into auth_group (name) values ('Public');
-
-### Create a super user
-
-    cd docker
-    docker-compose exec backend bash -c "python manage.py createsuperuser"
 
 
 ## Web Admin (Ashlar Editor)
