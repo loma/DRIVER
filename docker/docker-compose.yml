@@ -48,7 +48,7 @@ services:
       - ../backend:/usr/src/app
     ports:
       - "8000:8000"
-    entrypoint: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    entrypoint: ["/bin/bash", "./script/backend.sh"]
     environment:
       - "DRIVER_REDIS_HOST=redis"
       - "DRIVER_DB_NAME=postgres"
