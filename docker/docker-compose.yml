@@ -22,6 +22,8 @@ services:
     ports:
       - "4200:4200"
     entrypoint: ["/bin/bash", "./script/admin.sh"]
+    depends_on: 
+      - backend
   user:
     build:
       context: ./
@@ -36,6 +38,8 @@ services:
     ports:
       - "4300:4300"
     entrypoint: ["/bin/bash", "./script/user.sh"]
+    depends_on: 
+      - backend
   backend:
     build:
       context: ./
