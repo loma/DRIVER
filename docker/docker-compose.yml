@@ -46,6 +46,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ../backend:/usr/src/app
+      - ./script:/usr/src/app/script
     ports:
       - "8000:8000"
     entrypoint: ["/bin/bash", "./script/backend.sh"]
