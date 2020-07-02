@@ -18,10 +18,10 @@ services:
       - NODE_ENV=development
     volumes:
       - ../admin:/home/node/app
-      - ./admin:/home/node/app/script
+      - ./script:/home/node/app/script
     ports:
       - "4200:4200"
-    entrypoint: ["/bin/bash", "./script/start.sh"]
+    entrypoint: ["/bin/bash", "./script/admin.sh"]
   user:
     build:
       context: ./
@@ -32,10 +32,10 @@ services:
       - NODE_ENV=development
     volumes:
       - ../user:/home/node/app
-      - ./user:/home/node/app/script
+      - ./script:/home/node/app/script
     ports:
       - "4300:4300"
-    entrypoint: ["/bin/bash", "./script/start.sh"]
+    entrypoint: ["/bin/bash", "./script/user.sh"]
   backend:
     build:
       context: ./
