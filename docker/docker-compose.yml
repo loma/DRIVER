@@ -63,6 +63,9 @@ services:
     build:
       context: ./
       dockerfile: postgres.dockerfile
+    working_dir: /home/postgres
+    volumes:
+      - ./script:/home/postgres/script
     environment:
       - "POSTGRES_PASSWORD=postgres"
   redis:
