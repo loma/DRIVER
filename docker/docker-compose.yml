@@ -18,9 +18,10 @@ services:
       - NODE_ENV=development
     volumes:
       - ../admin:/home/node/app
+      - ./admin:/home/node/app/script
     ports:
       - "4200:4200"
-    entrypoint: ["npm", "start"]
+    entrypoint: ["/bin/bash", "./script/start.sh"]
   user:
     build:
       context: ./
@@ -31,9 +32,10 @@ services:
       - NODE_ENV=development
     volumes:
       - ../user:/home/node/app
+      - ./user:/home/node/app/script
     ports:
       - "4300:4300"
-    entrypoint: ["npm", "start"]
+    entrypoint: ["/bin/bash", "./script/start.sh"]
   backend:
     build:
       context: ./
@@ -44,6 +46,16 @@ services:
     ports:
       - "8000:8000"
     entrypoint: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    environment:
+      - "DRIVER_REDIS_HOST=redis"
+      - "DRIVER_DB_NAME=postgres"
+      - "DRIVER_DB_HOST=postgres"
+      - "DRIVER_DB_USER=postgres"
+      - "DRIVER_DB_PASSWORD=postgres"
+    depends_on: 
+      - postgres
+      - redis
+      - nginx
   postgres:
     build:
       context: ./
