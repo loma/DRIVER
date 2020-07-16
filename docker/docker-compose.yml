@@ -34,6 +34,7 @@ services:
     user: "node"
     environment:
       - NODE_ENV=development
+      - NODE_OPTIONS="--max-old-space-size=4092"
     volumes:
       - ../user:/home/node/app
       - ./script:/home/node/app/script
