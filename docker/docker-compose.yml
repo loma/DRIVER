@@ -6,11 +6,10 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ../nginx/web-driver-admin:/var/www/web-driver-admin
     ports:
       - "80:80"
     depends_on: 
-      - admin
-      - user
       - backend
   admin:
     build:
@@ -23,8 +22,6 @@ services:
     volumes:
       - ../admin:/home/node/app
       - ./script:/home/node/app/script
-    ports:
-      - "4200:4200"
     entrypoint: ["/bin/bash", "./script/admin.sh"]
   user:
     build:
@@ -38,8 +35,6 @@ services:
     volumes:
       - ../user:/home/node/app
       - ./script:/home/node/app/script
-    ports:
-      - "4300:4300"
     entrypoint: ["/bin/bash", "./script/user.sh"]
   backend:
     build:

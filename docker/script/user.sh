@@ -2,4 +2,6 @@
 
 npm install
 sed -i "s/54.193.25.161:8000/localhost/g" src/app/config.js
-./node_modules/@angular/cli/bin/ng serve --baseHref=/user/ --host=0.0.0.0 --port=4300 --disableHostCheck=true --liveReload=false --optimization=true --watch=false --verbose=true --progress=true
+#./node_modules/@angular/cli/bin/ng serve --baseHref=/user/ --host=0.0.0.0 --port=4300 --disableHostCheck=true --liveReload=false --optimization=true --watch=false --verbose=true --progress=true
+node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --baseHref=/wb-driver/ --optimization=true
+
