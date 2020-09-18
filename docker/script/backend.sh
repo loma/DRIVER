@@ -7,6 +7,8 @@ rm user_filters/migrations/0001_initial.py
 
 sed -i "s/'sslmode': 'require'/'sslmode': 'disable'/g" DRIVER/settings.py
 
+pip install --no-cache-dir -r requirements.txt
+
 python manage.py makemigrations
 python manage.py migrate
 
