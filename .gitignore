@@ -4,3 +4,4 @@ backend
 *.un~
 *.swp
 *.swo
+docker/dist/
