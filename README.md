@@ -8,90 +8,73 @@ Cloning the source codes into respect folders `backend, admin, user`
     git clone ADMIN_SOURCE_CODE admin
     git clone USER_SOURCE_CODE user
 
-## Starting Up
-Start up all servers
+## Backend (API)
+#### Pull the latest changes
+
+    cd backend
+    git fetch origin
+    git reset --hard origin/master
+
+#### Up postgres
 
     cd docker
-    docker-compose up
-**Build particular images**
+    docker-compose up -d postgres
 
-    docker-compose build backend
-**Build particular images (force)**
-
-    docker-compose build --no-cache backend
-**URL**
-
- - http://localhost:8000 -> API
- - http://localhost:4200 -> Admin (Ashalar Editor)
- - http://localhost:4300 -> User
-
-## Config Backend (API)
-  ### DRIVER/settings.py
-
-    REDIS_HOST = os.environ.get('DRIVER_REDIS_HOST', 'redis')
-    DATABASES = {
-	    ...
-	    'default': {
-		    'HOST': os.environ.get('DRIVER_DB_HOST', 'postgres'),
-		    'NAME': os.environ.get('DRIVER_DB_NAME', 'postgres'),
-		},
-		'OPTIONS': { 'sslmode': 'disable' }
-	}
-
-### Prepare Database
-    cd docker
-    docker-compose exec postgres bash -c "psql postgres postgres"
-    CREATE EXTENSION hstore;
-
-### Migrations
+#### Init database (only run once, this will clear all tables)
 
     cd docker
-    docker-compose exec backend bash -c "./manage.py makemigrations driver_advanced_auth data black_spots user_filters; ./manage.py migrate"
+    docker-compose exec postgres bash -c "./script/postgres.sh"
 
-### Create a super user
+#### Up backend to migrate schema
+Update any config changes in *docker/script/backend.sh*
+
+    cd docker
+    docker-compose up -d backend
+
+#### Create superadmin
 
     cd docker
     docker-compose exec backend bash -c "python manage.py createsuperuser"
 
-### Insert to Postgres
+#### Seed database with first records setting
 
     cd docker
-    docker-compose exec postgres bash -c "psql postgres postgres"
-    insert into auth_group (name) values ('Superadmin');
-    insert into auth_group (name) values ('Public');
+    docker-compose exec postgres bash -c "./script/copyfirst_record_to_db.sh"
 
 
 ## Web Admin (Ashlar Editor)
+#### Pull the latest changes
 
-  ### package.json
-  The docker file will use `npm start` to start the local dev server.
+    cd admin
+    git fetch origin
+    git reset --hard origin/master
 
-    "scripts": {
-	    ...
-	    "start": "ng serve --host=0.0.0.0 --port=4200",
-	}
+#### Up admin, (this will build angular admin and put under docker/dist/wb-driver-admin)
+Update config api url in *script/admin.sh* before build the admin
 
-### src/environments/environment.ts
+    cd docker
+    docker-compose up admin
 
-    API_BASE: 'http://localhost:8000/'
 
 ## User
+#### Pull the latest changes
 
+    cd user
+    git fetch origin
+    git reset --hard origin/master
 
-  ### package.json
-  The docker file will use `npm start` to start the local dev server.
+#### Up user, (this will build angular user and put under docker/dist/WB-Driver)
+Update config api url in *script/user.sh* before build the user
 
+    cd docker
+    docker-compose up user
 
-    "scripts": {
-	    ...
-	    "start": "ng serve --host=0.0.0.0 --port=4300",
-	}
-### src/environments/environment.ts
+## Nginx
+#### Up nginx to serve admin/user site
 
-    API_BASE: 'http://localhost:8000/'
+    docker-compose up -d nginx
 
-## Todos
-
- - fixed postgres schema, missing migration script
- - seed data for testing/demo
- - production deployment config
+- http://localhost:8000 -> API driect to django api
+- http://localhost:8080 -> API via nginx
+- http://localhost:8080/wb-admin-driver -> Admin
+- http://localhost:8080/web-driver -> User
