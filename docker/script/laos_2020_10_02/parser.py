@@ -253,8 +253,8 @@ with open('records.csv', encoding='utf-8', newline='') as csvfile:
             neighborhood = row[header.index('neighborhood')]
             road = row[header.index('road')]
             state = row[header.index('state')]
-            print("insert into data_driverrecord (record_ptr_id,weather,light,city,city_district,county,neighborhood,road,state,merged_and_updated,merged_uuid) \
-                    values ('"+uuid+"','"+weather+"','"+light+"','"+city+"','"+city_district+"','"+county+"','"+neighborhood+"','"+road+"','"+state+"',false,null);")
+            print("insert into data_driverrecord (record_ptr_id,weather,light,city,city_district,county,neighborhood,road,state,merged_and_updated,merged_uuid,uploaded_from) \
+                    values ('"+uuid+"','"+weather+"','"+light+"','"+city+"','"+city_district+"','"+county+"','"+neighborhood+"','"+road+"','"+state+"',false,null,'');")
 
         #if count > 1: break
         count = count + 1
