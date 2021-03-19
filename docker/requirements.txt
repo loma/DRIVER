@@ -27,7 +27,7 @@ django-filter==2.0.0
 django-oidc==0.1.4
 django-redis==4.2.0
 django-storages==1.9.1
-djangorestframework==3.8.0
+djangorestframework==3.11.2
 djangorestframework-csv==2.1.0
 djangorestframework-gis==0.15
 filelock==3.0.12
