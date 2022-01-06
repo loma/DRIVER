@@ -6,7 +6,7 @@ attrs==19.3.0
 Beaker==1.11.0
 django-celery==3.3.1
 billiard==3.6.3.0
-celery==4.4.0
+celery==5.2.2
 certifi==2019.11.28
 cffi==1.14.0
 chardet==3.0.4
